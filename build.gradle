@@ -1,7 +1,7 @@
 plugins {
     id("groovy") 
-    id("io.micronaut.library") version "3.2.2"
     id("com.github.johnrengelman.shadow") version "7.1.1"
+    id("io.micronaut.application") version "3.2.2"
 }
 
 version = "0.1"
@@ -12,28 +12,28 @@ repositories {
 }
 
 dependencies {
+    implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut.groovy:micronaut-runtime-groovy")
     implementation("jakarta.annotation:jakarta.annotation-api")
+    compileOnly("io.micronaut:micronaut-http-validation")
     runtimeOnly("ch.qos.logback:logback-classic")
     implementation("io.micronaut:micronaut-validation")
-
-    implementation("io.micronaut.aws:micronaut-function-aws")
-
-    testImplementation("io.micronaut:micronaut-function")
-
-    testImplementation("io.micronaut:micronaut-http-client")
 
 }
 
 
+application {
+    mainClass.set("hello.world.Application")
+}
 java {
     sourceCompatibility = JavaVersion.toVersion("11")
     targetCompatibility = JavaVersion.toVersion("11")
 }
 
+graalvmNative.toolchainDetection = false
 micronaut {
-    runtime("lambda")
+    runtime("netty")
     testRuntime("spock2")
     processing {
         incremental(true)
@@ -42,6 +42,3 @@ micronaut {
 }
 
 
-tasks.named("assemble") {
-    dependsOn(":shadowJar")
-}
