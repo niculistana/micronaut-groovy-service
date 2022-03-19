@@ -1,0 +1,5 @@
+Goals
+- Install VS Code & Plugins X
+- Install SDKMan, Groovy, Micronaut CLI X
+- Brush up on Micronaut Groovy: https://micronaut-projects.github.io/micronaut-groovy/latest/guide/
+- 

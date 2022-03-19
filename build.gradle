@@ -1,0 +1,47 @@
+plugins {
+    id("groovy") 
+    id("io.micronaut.library") version "3.2.2"
+    id("com.github.johnrengelman.shadow") version "7.1.1"
+}
+
+version = "0.1"
+group = "hello.world"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.groovy:micronaut-runtime-groovy")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    implementation("io.micronaut:micronaut-validation")
+
+    implementation("io.micronaut.aws:micronaut-function-aws")
+
+    testImplementation("io.micronaut:micronaut-function")
+
+    testImplementation("io.micronaut:micronaut-http-client")
+
+}
+
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("11")
+    targetCompatibility = JavaVersion.toVersion("11")
+}
+
+micronaut {
+    runtime("lambda")
+    testRuntime("spock2")
+    processing {
+        incremental(true)
+        annotations("hello.world.*")
+    }
+}
+
+
+tasks.named("assemble") {
+    dependsOn(":shadowJar")
+}
